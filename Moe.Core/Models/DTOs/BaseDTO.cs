@@ -5,6 +5,7 @@ namespace Moe.Core.Models.DTOs;
 
 public class BaseDTO
 {
+    public int DisplayId { get; set; }
     public Guid? Id { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
@@ -22,6 +23,7 @@ public class BaseUpdateDTO
 
 public class BaseFilter
 {
+    public int DisplayId { get; set; }
     public Guid? Id { get; set; }
     
     public int PageNumber { get; set; } = 1;

@@ -29,29 +29,29 @@ public class ErrResponseException : Exception
 
 public static class ErrResponseThrower
 {
-    public static void BadRequest(string msgKey = "BAD_REQUEST")
+    public static void BadRequest(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 400);
+        throw new ErrResponseException(msgKey ?? "BAD_REQUEST", 400);
     }
-    public static void Unauthorized(string msgKey = "UNAUTHORIZED")
+    public static void Unauthorized(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 401);
+        throw new ErrResponseException(msgKey ?? "UNAUTHORIZED", 401);
     }
-    public static void Forbidden(string msgKey = "FORBIDDEN")
+    public static void Forbidden(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 403);
+        throw new ErrResponseException(msgKey ?? "FORBIDDEN", 403);
     }
-    public static void NotFound(string msgKey = "NOT_FOUND")
+    public static void NotFound(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 404);
+        throw new ErrResponseException(msgKey ?? "NOT_FOUND", 404);
     }
-    public static void Conflict(string msgKey = "CONFLICT")
+    public static void Conflict(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 409);
+        throw new ErrResponseException(msgKey ?? "CONFLICT", 409);
     }
-    
-    public static void InternalServerErr(string msgKey = "INTERNAL_SERVER_ERROR")
+
+    public static void InternalServerErr(string msgKey = null)
     {
-        throw new ErrResponseException(msgKey, 500);
+        throw new ErrResponseException(msgKey ?? "INTERNAL_SERVER_ERROR", 500);
     }
 }

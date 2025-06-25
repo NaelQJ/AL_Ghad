@@ -5,25 +5,25 @@
 namespace Moe.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUsernameforLogin : Migration
+    public partial class updataFamliyandorphanstatus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Username",
-                table: "Users",
-                type: "character varying(20)",
-                maxLength: 20,
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "Status",
+                table: "Orphans",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Username",
-                table: "Users");
+                name: "Status",
+                table: "Orphans");
         }
     }
 }

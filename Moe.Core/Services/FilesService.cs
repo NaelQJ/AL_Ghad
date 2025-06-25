@@ -2,12 +2,12 @@ using Moe.Core.Null;
 
 namespace Moe.Core.Services;
 
-public interface IAttachmentsService
+public interface IFilesService
 {
     Task<string> Upload(IFormFile file);
 }
 
-public class AttachmentsService : IAttachmentsService
+public class FilesService : IFilesService
 {
     public async Task<string> Upload(IFormFile file)
     {

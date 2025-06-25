@@ -39,7 +39,9 @@ FirebaseApp.Create(new AppOptions()
 #endregion
 
 #region App Builder
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);       
+
+builder.WebHost.UseUrls("http://0.0.0.0:6969");
 ConfigProvider.config = builder.Configuration;
 
 builder.Services.AddDbContext<MasterDbContext>(opt =>
@@ -53,7 +55,7 @@ builder.Services.AddCors(opt =>
     opt.AddPolicy("AllowSpecificOrigins",
         builder => builder
             .WithOrigins(
-                "http://localhost:6969", "http://127.0.0.1:6969", "http://100.42.190.178:6969",
+                "http://localhost:6969", "http://127.0.0.1:6969", "http://192.168.68.124:6969",
                 
                 "http://localhost:3000", "http://127.0.0.1:3000", "http://100.42.190.178:3000",
                 "http://localhost:3001", "http://127.0.0.1:3001", "http://100.42.190.178:3001",

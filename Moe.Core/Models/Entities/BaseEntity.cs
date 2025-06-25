@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Moe.Core.Data;
 
 namespace Moe.Core.Models.Entities;
 
 public class BaseEntity
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int DisplayId { get; set; }
     [Key] public Guid Id { get; set; }
 
     public DateTime? CreatedAt { get; set; }

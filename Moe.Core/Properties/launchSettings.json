@@ -32,7 +32,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://192.168.100.7:8829"
+      "applicationUrl": "http://192.168.68.124:6969"
     }
   },
   "iisSettings": {

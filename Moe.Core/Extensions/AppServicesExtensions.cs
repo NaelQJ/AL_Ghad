@@ -75,15 +75,23 @@ public static class AppServicesExtensions
     
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IAttachmentsService, AttachmentsService>();
+      
         services.AddScoped<PhoneNumberNormalizer>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUsersService, UsersService>();
         services.AddScoped<ICountriesService, CountriesService>();
         services.AddScoped<ICitiesService, CitiesService>();
         services.AddScoped<IRolesService, RolesService>();
-        
+        services.AddScoped<IFilesService, FilesService>();
         //{{INSERTION_POINT}}
+        services.AddScoped<ISupportsService, SupportsService>();
+        services.AddScoped<ISponsorShipsService, SponsorShipsService>();
+  
+        services.AddScoped<ISponsorsService, SponsorsService>();
+        services.AddScoped<ICampaignsService, CampaignsService>();
+        services.AddScoped<INewsesService, NewsesService>();
+        services.AddScoped<IOrphansService, OrphansService>();
+        services.AddScoped<IFamiliesService, FamiliesService>();
 
         
         return services;

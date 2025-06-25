@@ -12,7 +12,7 @@ namespace Moe.Core.Translations
 
         static Localizer()
         {
-            ResourceManager = new ResourceManager("elixir.core.Translations.Translation", Assembly.GetExecutingAssembly());
+            ResourceManager = new ResourceManager("Moe.core.Translations.Translation", Assembly.GetExecutingAssembly());
         }
 
         public static string Translate(string key, string culture = null, params string[] args)

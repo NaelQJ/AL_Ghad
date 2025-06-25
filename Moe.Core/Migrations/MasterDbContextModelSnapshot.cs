@@ -22,6 +22,62 @@ namespace Moe.Core.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.Campaign", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Beneficiary")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid>("Editor")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TargetAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Campaigns");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.ChangeEmailRequest", b =>
                 {
                     b.Property<Guid>("Id")
@@ -33,6 +89,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -72,6 +134,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -114,6 +182,12 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -144,6 +218,12 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -160,7 +240,7 @@ namespace Moe.Core.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("Moe.Core.Models.Entities.Item", b =>
+            modelBuilder.Entity("Moe.Core.Models.Entities.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,37 +249,224 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Details")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("DevicePath")
                         .HasColumnType("text");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid>("FamilyId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedByUserId");
+                    b.HasIndex("FamilyId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid?>("FamilyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("OrphanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FamilyId");
+
+                    b.HasIndex("OrphanId");
+
+                    b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.Family", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AssistanceProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<bool>("CanDevelopProject")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanStartNewProject")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CurrentAddressRegion")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("CurrentFullAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("CurrentHousingType")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("CurrentNearestLandmark")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal>("CurrentRentAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("CurrentRoomCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("DeathCause")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime>("DeathDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<decimal>("FamilyIncome")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("FamilyProjectName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("FatherJob")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("FatherName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("MotherJop")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("MotherName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("MotherPhone")
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<string>("MotherStudy")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("PreviousAddressRegion")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("PreviousFullAddress")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PreviousHousingType")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("PreviousNearestLandmark")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int?>("PreviousRoomCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProjectType")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<decimal?>("ProposedBudget")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("RetirementProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SecondDeceasedName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("WelfareProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int?>("WorkingMembersCount")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Families");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.LocalizedContent", b =>
@@ -216,6 +483,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<string>("En")
                         .HasColumnType("text");
@@ -246,6 +519,12 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -273,6 +552,52 @@ namespace Moe.Core.Migrations
                     b.ToTable("ChangePhoneRequest");
                 });
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.News", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("CoverImage")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid>("Editor")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Newses");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.Notification", b =>
                 {
                     b.Property<Guid>("Id")
@@ -291,6 +616,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<Guid?>("HelperId")
                         .HasColumnType("uuid");
@@ -332,6 +663,138 @@ namespace Moe.Core.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.Orphan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid?>("FamilyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("IllnessDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("IllnessName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("IllnessStatus")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("IllnessType")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsHereditary")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Lineage")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("MedFollowUp")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
+                    b.Property<int?>("MedFollowUpCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MedSpecialty")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("MedicalNotes")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("PermanentDisabilities")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
+                    b.Property<string>("PreviousSurgeries")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
+                    b.Property<string>("SchoolAddress")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal?>("SchoolFees")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("SchoolFeesSource")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("SchoolName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("SchoolNotes")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("SchoolStatus")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("SchoolType")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TalentNotes")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("TalentType")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FamilyId");
+
+                    b.ToTable("Orphans");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.PendingUser", b =>
                 {
                     b.Property<Guid>("Id")
@@ -343,6 +806,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(128)
@@ -411,6 +880,12 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
@@ -445,6 +920,12 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -460,6 +941,186 @@ namespace Moe.Core.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.Sponsor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<decimal>("AmountOrphan")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeathDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("HowFoundUs")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<string>("Intermediary")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<bool?>("IsDead")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JobTitle")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<int>("OrphanCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<string>("SponsoredFor")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime>("StartSpons")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Study")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sponsors");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.SponsorShip", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<Guid?>("FamilyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("OrphanId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SponsorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FamilyId");
+
+                    b.HasIndex("OrphanId");
+
+                    b.HasIndex("SponsorId");
+
+                    b.ToTable("SponsorShips");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.Support", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Supports");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.SystemSettings", b =>
                 {
                     b.Property<Guid>("Id")
@@ -471,6 +1132,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -498,6 +1165,12 @@ namespace Moe.Core.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DisplayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
                     b.Property<string>("Email")
                         .HasMaxLength(320)
@@ -544,136 +1217,17 @@ namespace Moe.Core.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<Guid?>("WarehouseId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasFilter("\"Email\" IS NOT NULL");
 
-                    b.HasIndex("WarehouseId");
-
                     b.HasIndex("Phone", "PhoneCountryCode")
                         .IsUnique()
                         .HasFilter("\"Phone\" IS NOT NULL AND \"PhoneCountryCode\" IS NOT NULL");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Moe.Core.Models.Entities.Warehouse", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<double?>("Latitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Location")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<double?>("Longitude")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Warehouses");
-                });
-
-            modelBuilder.Entity("Moe.Core.Models.Entities.WarehouseItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Qtu")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("WarehouseItems");
-                });
-
-            modelBuilder.Entity("Moe.Core.Models.Entities.WarehouseItemTransaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid?>("FromWarehouseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Qtu")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("ToWarehouseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromWarehouseId");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("ToWarehouseId");
-
-                    b.ToTable("WarehouseItemTransactions");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.City", b =>
@@ -704,15 +1258,30 @@ namespace Moe.Core.Migrations
                     b.Navigation("Name");
                 });
 
-            modelBuilder.Entity("Moe.Core.Models.Entities.Item", b =>
+            modelBuilder.Entity("Moe.Core.Models.Entities.Device", b =>
                 {
-                    b.HasOne("Moe.Core.Models.Entities.User", "CreatedByUser")
-                        .WithMany("CreatedItems")
-                        .HasForeignKey("CreatedByUserId")
+                    b.HasOne("Moe.Core.Models.Entities.Family", "Family")
+                        .WithMany("Devices")
+                        .HasForeignKey("FamilyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CreatedByUser");
+                    b.Navigation("Family");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.Document", b =>
+                {
+                    b.HasOne("Moe.Core.Models.Entities.Family", "Family")
+                        .WithMany("Documents")
+                        .HasForeignKey("FamilyId");
+
+                    b.HasOne("Moe.Core.Models.Entities.Orphan", "Orphan")
+                        .WithMany("Documents")
+                        .HasForeignKey("OrphanId");
+
+                    b.Navigation("Family");
+
+                    b.Navigation("Orphan");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Notification", b =>
@@ -732,6 +1301,16 @@ namespace Moe.Core.Migrations
                     b.Navigation("Notifier");
                 });
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.Orphan", b =>
+                {
+                    b.HasOne("Moe.Core.Models.Entities.Family", "Family")
+                        .WithMany("Orphans")
+                        .HasForeignKey("FamilyId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Family");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.Permission", b =>
                 {
                     b.HasOne("Moe.Core.Models.Entities.Role", null)
@@ -739,58 +1318,38 @@ namespace Moe.Core.Migrations
                         .HasForeignKey("RoleId");
                 });
 
-            modelBuilder.Entity("Moe.Core.Models.Entities.User", b =>
+            modelBuilder.Entity("Moe.Core.Models.Entities.Sponsor", b =>
                 {
-                    b.HasOne("Moe.Core.Models.Entities.Warehouse", "Warehouse")
-                        .WithMany("Admins")
-                        .HasForeignKey("WarehouseId");
-
-                    b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("Moe.Core.Models.Entities.WarehouseItem", b =>
-                {
-                    b.HasOne("Moe.Core.Models.Entities.Item", "Item")
-                        .WithMany("WarehouseItems")
-                        .HasForeignKey("ItemId")
+                    b.HasOne("Moe.Core.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Moe.Core.Models.Entities.Warehouse", "Warehouse")
-                        .WithMany("WarehouseItems")
-                        .HasForeignKey("WarehouseId")
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.SponsorShip", b =>
+                {
+                    b.HasOne("Moe.Core.Models.Entities.Family", "Family")
+                        .WithMany()
+                        .HasForeignKey("FamilyId");
+
+                    b.HasOne("Moe.Core.Models.Entities.Orphan", "Orphan")
+                        .WithMany()
+                        .HasForeignKey("OrphanId");
+
+                    b.HasOne("Moe.Core.Models.Entities.Sponsor", "Sponsor")
+                        .WithMany("SponsorShips")
+                        .HasForeignKey("SponsorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Item");
+                    b.Navigation("Family");
 
-                    b.Navigation("Warehouse");
-                });
+                    b.Navigation("Orphan");
 
-            modelBuilder.Entity("Moe.Core.Models.Entities.WarehouseItemTransaction", b =>
-                {
-                    b.HasOne("Moe.Core.Models.Entities.Warehouse", "FromWarehouse")
-                        .WithMany()
-                        .HasForeignKey("FromWarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Moe.Core.Models.Entities.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Moe.Core.Models.Entities.Warehouse", "ToWarehouse")
-                        .WithMany()
-                        .HasForeignKey("ToWarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FromWarehouse");
-
-                    b.Navigation("Item");
-
-                    b.Navigation("ToWarehouse");
+                    b.Navigation("Sponsor");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Country", b =>
@@ -798,9 +1357,18 @@ namespace Moe.Core.Migrations
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("Moe.Core.Models.Entities.Item", b =>
+            modelBuilder.Entity("Moe.Core.Models.Entities.Family", b =>
                 {
-                    b.Navigation("WarehouseItems");
+                    b.Navigation("Devices");
+
+                    b.Navigation("Documents");
+
+                    b.Navigation("Orphans");
+                });
+
+            modelBuilder.Entity("Moe.Core.Models.Entities.Orphan", b =>
+                {
+                    b.Navigation("Documents");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Role", b =>
@@ -808,20 +1376,16 @@ namespace Moe.Core.Migrations
                     b.Navigation("Permissions");
                 });
 
+            modelBuilder.Entity("Moe.Core.Models.Entities.Sponsor", b =>
+                {
+                    b.Navigation("SponsorShips");
+                });
+
             modelBuilder.Entity("Moe.Core.Models.Entities.User", b =>
                 {
-                    b.Navigation("CreatedItems");
-
                     b.Navigation("NotificationsReceived");
 
                     b.Navigation("NotificationsSent");
-                });
-
-            modelBuilder.Entity("Moe.Core.Models.Entities.Warehouse", b =>
-                {
-                    b.Navigation("Admins");
-
-                    b.Navigation("WarehouseItems");
                 });
 #pragma warning restore 612, 618
         }

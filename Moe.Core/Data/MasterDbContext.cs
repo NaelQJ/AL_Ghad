@@ -8,7 +8,7 @@ using Moe.Core.Models.Entities.Moe.Core.Models.Entities;
 
 namespace Moe.Core.Data;
 
-public class MasterDbContext : DbContext    
+public class MasterDbContext : DbContext
 {
     public readonly IMapper _mapper;
     public MasterDbContext(DbContextOptions<MasterDbContext> options, IMapper mapper) : base(options)
@@ -18,15 +18,24 @@ public class MasterDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<PendingUser> PendingUsers { get; set; }
-    public DbSet<LocalizedContent> LocalizedContents { get; set; } 
+    public DbSet<LocalizedContent> LocalizedContents { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<City> Cities { get; set; }
     public DbSet<Notification> Notifications { get; set; }
-    
-    //{{INSERTION_POINT}}  
 
+    //{{INSERTION_POINT}}  
+    public DbSet<Support> Supports { get; set; }
+    public DbSet<SponsorShip> SponsorShips { get; set; }
+    public DbSet<Sponsor> Sponsors { get; set; }
+    public DbSet<Campaign> Campaigns { get; set; }
+    public DbSet<News> Newses { get; set; }
+    public DbSet<Orphan> Orphans { get; set; }
+    public DbSet<Family> Families { get; set; }
+    public DbSet<Document> Documents { get; set; }
+    public DbSet<Device> Devices { get; set; }
+  
     public DbSet<SystemSettings> SystemSettings { get; set; }
 
     public DbSet<ChangePasswordRequest> ChangePasswordRequest { get; set; }
@@ -49,7 +58,7 @@ public class MasterDbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull);
         });
 
-       
+
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

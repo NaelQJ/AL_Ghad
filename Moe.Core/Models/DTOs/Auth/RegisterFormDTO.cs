@@ -3,6 +3,7 @@ using FluentValidation;
 
 namespace Moe.Core.Models.DTOs.Auth;
 
+
 public class RegisterFormDTO
 {
     [Required] [EmailAddress] [MaxLength(128)] public string Email { get; set; }
@@ -14,6 +15,7 @@ public class RegisterFormDTO
 
     public string? Name { get; set; }
 
+    [MaxLength(64)] public string? ProfileImg { get; set; }
 
     [Required]
     [MaxLength(20)]
@@ -23,6 +25,7 @@ public class RegisterFormDTO
     
     [StringLength(30, MinimumLength = 6)]
     public string Password { get; set; }
+
 }
 
 

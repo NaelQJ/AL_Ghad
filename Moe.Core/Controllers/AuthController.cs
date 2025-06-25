@@ -26,7 +26,7 @@ public class AuthController : BaseController
 
     #region Register
     [HttpPost("register")]
-    public async Task<ActionResult<Response<string>>> Register([FromBody] RegisterFormDTO form)
+    public async Task<ActionResult<Response<LoginDTO>>> Register([FromBody] RegisterFormDTO form)
     {
         form.Phone = _phoneNumberNormalizer.Normalize(form.Phone);
         form.PhoneCountryCode = _phoneNumberNormalizer.NormalizeCountryCode(form.PhoneCountryCode);
@@ -58,10 +58,12 @@ public class AuthController : BaseController
     ///   Phone: <c>+964700000003</c>
     ///
     /// You can login using either email or phone + country code.
+    /// 
+    /// StaticRole : 'superadmin = 0 , admin =10 , normal = 20 '
     /// </remarks>
 
     [HttpPost("login")]
-    public async Task<ActionResult<Response<string>>> Login([FromBody] LoginFormDTO form)
+    public async Task<ActionResult<Response<LoginDTO>>> Login([FromBody] LoginFormDTO form)
     {
         form.Phone = _phoneNumberNormalizer.Normalize(form.Phone);
         form.PhoneCountryCode = _phoneNumberNormalizer.NormalizeCountryCode(form.PhoneCountryCode);

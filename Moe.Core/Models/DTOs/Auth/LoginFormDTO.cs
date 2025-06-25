@@ -1,9 +1,23 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+using Moe.Core.Models.Entities;
 
 namespace Moe.Core.Models.DTOs.Auth;
 
-public class LoginFormDTO 
+
+public class LoginDTO
+{
+    public string? Email { get; set; }
+    public string? PhoneCountryCode { get; set; }
+    public string? Phone { get; set; }
+    public string? Username { get; set; }
+    public string? ProfileImg { get; set; }
+
+    public StaticRole StaticRole { get; set; }
+    public string Token { get; set; }
+
+}
+public class LoginFormDTO
 {
     public string? Email { get; set; }
     public string? PhoneCountryCode { get; set; }

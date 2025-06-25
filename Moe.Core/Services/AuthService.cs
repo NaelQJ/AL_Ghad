@@ -15,10 +15,10 @@ namespace Moe.Core.Services;
 
 public interface IAuthService
 {
-    Task<Response<string>> Login(LoginFormDTO form);
+    Task<Response<LoginDTO>> Login(LoginFormDTO form);
     
     Task<Response<string>> Register(RegisterFormDTO form);
-    Task<Response<string>> VerifyRegister(VerifyOtpFormDTO form);
+    Task<Response<LoginDTO>> VerifyRegister(VerifyOtpFormDTO form);
 
     
     Task<Response<string>> ResetPassword(ResetPasswordFormDTO form);
@@ -105,25 +105,26 @@ public class AuthService : BaseService, IAuthService
     }
 
 
-    public async Task<Response<string>> VerifyRegister(VerifyOtpFormDTO form)
+    public async Task<Response<LoginDTO>> VerifyRegister(VerifyOtpFormDTO form)
     {
         var pendingUser = await _context.PendingUsers.FindAsync(form.Id);
         if (pendingUser == null)
-        return new Response<string>(null, "PENDING_USER_NOT_FOUND", 400);
+        return new Response<LoginDTO>(null, "PENDING_USER_NOT_FOUND", 400);
 
         await UpdatePendingUserLeftTrials(pendingUser);
 
       
         if (form.OTP != pendingUser.OTP && form.OTP != "666666")
-        return new Response<string>(null, "WRONG_PASSWORD", 400);
+        return new Response<LoginDTO>(null, "WRONG_PASSWORD", 400);
 
 
         var user = await VerifyPendingUser(pendingUser);
 
       
         var token = JwtToken.GenToken(user.Id, user.StaticRole.ToRoleString());
-
-        return new Response<string>(token, null, 200); 
+        var dto = _mapper.Map<LoginDTO>(user);
+        dto.Token = token;
+        return new Response<LoginDTO>(dto, null, 200); 
     }
 
 
@@ -164,7 +165,7 @@ public class AuthService : BaseService, IAuthService
 
         return user;
     }
-    public async Task<Response<string>> Login(LoginFormDTO form)
+    public async Task<Response<LoginDTO>> Login(LoginFormDTO form)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u =>
             (!string.IsNullOrWhiteSpace(form.Email) && u.Email == form.Email) ||
@@ -174,24 +175,24 @@ public class AuthService : BaseService, IAuthService
         );
 
         if (user == null)
-            return new Response<string>(null, "User not found", 400);
+            return new Response<LoginDTO>(null, "User not found", 400);
 
         if (user.IsDeleted)
-            return new Response<string>(null, "Your account is deleted", 403);
+            return new Response<LoginDTO>(null, "Your account is deleted", 403);
 
         if (user.IsBanned == UserState.Band)
-            return new Response<string>(null, "Your account is banned", 403);
+            return new Response<LoginDTO>(null, "Your account is banned", 403);
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
         var dtoHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(form.Password));
         if (!user.PasswordHash.SequenceEqual(dtoHash))
-            return new Response<string>(null, "Wrong password", 400);
+            return new Response<LoginDTO>(null, "Wrong password", 400);
 
         var token = JwtToken.GenToken(user.Id, user.StaticRole.ToRoleString());
 
-      
-
-        return new Response<string>(token, null, 200);
+        var dto = _mapper.Map<LoginDTO>(user);
+        dto.Token = token;
+        return new Response<LoginDTO>(dto, null, 200);
     }
 
 

@@ -9,17 +9,16 @@ using Moe.Core.Services;
 namespace Moe.Core.Controllers;
 
 [Authorize]
-
-public class AttachmentsController : BaseController
+public class FilesController : BaseController
 {
-    private readonly IAttachmentsService _attachmentsService;
+    private readonly IFilesService _filesService;
 
-    public AttachmentsController(IAttachmentsService attachmentsService)
+    public FilesController(IFilesService filesService)
     {
-        _attachmentsService = attachmentsService;
+        _filesService = filesService;
     }
-        
+
     [HttpPost]
     public async Task<ActionResult<string>> Upload([Required] IFormFile file) =>
-        Ok(new Response<string>(await _attachmentsService.Upload(file), null, 200));
+        Ok(new Response<string>(await _filesService.Upload(file), null, 200));
 }

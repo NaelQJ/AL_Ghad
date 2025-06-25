@@ -45,7 +45,7 @@ public class UsersController : BaseController
     public async Task<ActionResult<Response<UserDTO>>> Create([FromBody] UserFormDTO form) =>
         Ok(await _usersService.Create(form));
 
-    [Authorize(Roles = "super-admin")]
+    //[Authorize(Roles = "super-admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult<Response<UserDTO>>> Update(Guid id, [FromBody] UserUpdateDTO update)
     {

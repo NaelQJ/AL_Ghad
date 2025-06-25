@@ -54,7 +54,7 @@ public enum StaticRole
     SUPER_ADMIN = 0,
     ADMIN = 10,
     NORMAL = 20,
-    WAREHOUSE_ADMIN = 30
+  
 }
 
 public enum UserState

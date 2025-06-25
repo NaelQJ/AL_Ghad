@@ -17,6 +17,7 @@ public static class IQueryableExtensions
     
     public static IQueryable<T> WhereSoftDeleted<T>(this IQueryable<T> query, bool? filterValue) where T : BaseEntity
     {
+  
         if (filterValue == null)
             return query;
 
