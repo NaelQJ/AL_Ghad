@@ -62,7 +62,7 @@ public class Sponsor : BaseEntity
 
     [MaxLength(128)]
     public string? Intermediary { get; set; } // The person I knew inside the organization to the organization
-
+    public int Score { get; set; }
 
     #endregion
 

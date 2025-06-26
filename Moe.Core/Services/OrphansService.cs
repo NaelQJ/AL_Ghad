@@ -10,9 +10,9 @@ namespace Moe.Core.Services;
 
 public interface IOrphansService
 {
-    Task<Response<PagedList<OrphanDTO>>> GetAll(OrphanFilter filter);
+    Task<Response<PagedList<OrphanSimplDTO>>> GetAll(OrphanFilter filter);
     Task<Response<OrphanDTO>> GetById(Guid id);
-    Task<Response<OrphanDTO>> Create(OrphanFormDTO form);
+    Task<Response<OrphanSimplDTO>> Create(OrphanFormDTO form);
     Task Update(OrphanUpdateDTO update);
     Task Delete(Guid id);
 }
@@ -22,7 +22,7 @@ public class OrphansService : BaseService, IOrphansService
     public OrphansService(MasterDbContext context, IMapper mapper) : base(context, mapper)
     { }
 
-    public async Task<Response<PagedList<OrphanDTO>>> GetAll(OrphanFilter filter)
+    public async Task<Response<PagedList<OrphanSimplDTO>>> GetAll(OrphanFilter filter)
     {
         var orphans = await _context.Orphans
          .WhereBaseFilter(filter)
@@ -33,10 +33,10 @@ public class OrphansService : BaseService, IOrphansService
          .Where(e => !filter.FamilyId.HasValue || e.FamilyId == filter.FamilyId)
 
                  .OrderByCreationDate()
-            .ProjectTo<OrphanDTO>(_mapper.ConfigurationProvider)
+            .ProjectTo<OrphanSimplDTO>(_mapper.ConfigurationProvider)
             .Paginate(filter);
 
-        return new Response<PagedList<OrphanDTO>>(orphans, null, 200);
+        return new Response<PagedList<OrphanSimplDTO>>(orphans, null, 200);
     }
 
     public async Task<Response<OrphanDTO>> GetById(Guid id)
@@ -45,11 +45,11 @@ public class OrphansService : BaseService, IOrphansService
         return new Response<OrphanDTO>(dto, null, 200);
     }
 
-    public async Task<Response<OrphanDTO>> Create(OrphanFormDTO form)
+    public async Task<Response<OrphanSimplDTO>> Create(OrphanFormDTO form)
     {
         await _context.EnsureEntityExists<Family>(form.FamilyId, "Family not found");
-        var dto = await _context.CreateWithMapper<Orphan, OrphanDTO>(form, _mapper);
-        return new Response<OrphanDTO>(dto, null, 200);
+        var dto = await _context.CreateWithMapper<Orphan, OrphanSimplDTO>(form, _mapper);
+        return new Response<OrphanSimplDTO>(dto, null, 200);
     }
 
     public async Task Update(OrphanUpdateDTO update)

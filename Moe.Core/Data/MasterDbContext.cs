@@ -59,6 +59,24 @@ public class MasterDbContext : DbContext
         });
 
 
+        modelBuilder.Entity<SponsorShip>()
+        .HasOne(s => s.Family)
+        .WithMany(f => f.SponsorShips)
+        .HasForeignKey(s => s.FamilyId)
+        .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<SponsorShip>()
+            .HasOne(s => s.Orphan)
+            .WithMany(o => o.SponsorShips)
+            .HasForeignKey(s => s.OrphanId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<SponsorShip>()
+       .HasOne(s => s.Sponsor)
+       .WithMany(sp => sp.SponsorShips) 
+       .HasForeignKey(s => s.SponsorId)
+       .OnDelete(DeleteBehavior.SetNull);
+
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

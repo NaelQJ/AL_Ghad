@@ -32,7 +32,7 @@ public class OrphansController : BaseController
 	[Authorize]
 	[TypeFilter(typeof(SoftDeleteAccessFilterActionFilter))]
 	[HttpGet]
-	public async Task<ActionResult<Response<PagedList<OrphanDTO>>>> GetAll([FromQuery] OrphanFilter filter) =>
+	public async Task<ActionResult<Response<PagedList<OrphanSimplDTO>>>> GetAll([FromQuery] OrphanFilter filter) =>
 		Ok(await _orphansService.GetAll(filter));
 
     /// <summary>
@@ -54,7 +54,7 @@ public class OrphansController : BaseController
     /// </remarks>
 	[Authorize]
 	[HttpPost]
-	public async Task<ActionResult<Response<OrphanDTO>>> Create([Required] [FromBody] OrphanFormDTO form) =>
+	public async Task<ActionResult<Response<OrphanSimplDTO>>> Create([Required] [FromBody] OrphanFormDTO form) =>
 		Ok(await _orphansService.Create(form));
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Moe.Core.Models.Entities;
@@ -13,12 +14,10 @@ public class Orphan : BaseEntity
     #endregion
 
     #region Functional
-    public Status Status { get; set; } = Status.Pending;
+    public bool IsSponsored { get; set; } = false;
     #endregion
 
     #region Non-Functional
-
-
 
     [MaxLength(128)]
     public string FullName { get; set; }
@@ -96,6 +95,7 @@ public class Orphan : BaseEntity
 
     #region Many-To-N
     public ICollection<Document> Documents { get; set; } = new List<Document>();
+    public ICollection<SponsorShip> SponsorShips { get; set; } = new List<SponsorShip>();
     #endregion
 }
 

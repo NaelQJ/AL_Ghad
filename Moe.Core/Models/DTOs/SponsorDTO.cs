@@ -29,7 +29,19 @@ public class SponsorDTO : BaseDTO
     public string Intermediary { get; set; } // The person I knew inside the organization to the organization
     #endregion
 }
+public class SponsorSimplDTO : BaseDTO
+{
+    #region Auto
+    #endregion
 
+    #region Manual
+    public Status Status { get; set; }
+    public string FullName { get; set; }
+    public int OrphanCount { get; set; }
+    public int Score { get; set; } 
+
+    #endregion
+}
 public class SponsorFormDTO : BaseFormDTO
 {
 
@@ -80,7 +92,7 @@ public class SponsorFormDTO : BaseFormDTO
     [Required]
     [MaxLength(128)]
     public string Intermediary { get; set; } // The person I knew inside the organization to the organization
-
+    public int Score { get; set; }
     [JsonIgnore]
     [BindNever]
     public Guid UserId { get; set; }
@@ -114,7 +126,7 @@ public class SponsorUpdateDTO : BaseUpdateDTO
 
     public string? HowFoundUs { get; set; } 
     public string? Intermediary { get; set; } // The person I knew inside the organization to the organization
-
+    public int Score { get; set; }
 }
 
 public class SponsorFilter : BaseFilter

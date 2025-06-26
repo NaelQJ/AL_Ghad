@@ -32,7 +32,7 @@ public class FamiliesController : BaseController
 	[Authorize]
 	[TypeFilter(typeof(SoftDeleteAccessFilterActionFilter))]
 	[HttpGet]
-	public async Task<ActionResult<Response<PagedList<FamilyDTO>>>> GetAll([FromQuery] FamilyFilter filter) =>
+	public async Task<ActionResult<Response<PagedList<FamilySimpleDTO>>>> GetAll([FromQuery] FamilyFilter filter) =>
 		Ok(await _familiesService.GetAll(filter));
 
     /// <summary>
@@ -55,7 +55,7 @@ public class FamiliesController : BaseController
     /// </remarks>
     [Authorize]
 	[HttpPost]
-	public async Task<ActionResult<Response<FamilyDTO>>> Create([Required] [FromBody] FamilyFormDTO form) =>
+	public async Task<ActionResult<Response<FamilySimpleDTO>>> Create([Required] [FromBody] FamilyFormDTO form) =>
 		Ok(await _familiesService.Create(form));
 
     /// <summary>

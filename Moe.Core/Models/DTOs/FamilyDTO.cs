@@ -1,5 +1,6 @@
 using Moe.Core.Models.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 
 namespace Moe.Core.Models.DTOs;
 
@@ -23,7 +24,7 @@ public class FamilyDTO : BaseDTO
     public int? CurrentRoomCount { get; set; }
     public string CurrentFullAddress { get; set; }
     public decimal CurrentRentAmount { get; set; }
-    public string CurrentNearestLandmark { get; set; }
+  
     public string? PreviousAddressRegion { get; set; }
     public string? PreviousHousingType { get; set; }
     public int? PreviousRoomCount { get; set; }
@@ -43,6 +44,21 @@ public class FamilyDTO : BaseDTO
     public string? Notes { get; set; }
     public int Score { get; set; } = 0;
     public Status Status { get; set; }
+    #endregion
+}
+
+public class FamilySimpleDTO : BaseDTO
+{
+    #region Auto
+    #endregion
+
+    #region Manual
+    public string FatherName { get; set; }
+    public int OrphanCount { get; set; }
+    public int Score { get; set; }
+    public string SponsorName { get; set; }
+    public bool IsActive { get; set; }
+    public bool IsSponsored { get; set; } 
     #endregion
 }
 
@@ -92,8 +108,7 @@ public class FamilyFormDTO : BaseFormDTO
     [Required]
     public decimal CurrentRentAmount { get; set; }
 
-    [Required, MaxLength(128)]
-    public string CurrentNearestLandmark { get; set; }
+
 
     [MaxLength(64)]
     public string? PreviousAddressRegion { get; set; }
@@ -143,7 +158,7 @@ public class FamilyFormDTO : BaseFormDTO
     public int Score { get; set; } = 0;
 
     [Required]
-    public Status Status { get; set; }
+    public bool IsActive { get; set; }
 
     public ICollection<string> Documents { get; set; } = new List<string>();
     public ICollection<string> Devices { get; set; } = new List<string>();
@@ -167,7 +182,7 @@ public class FamilyUpdateDTO : BaseUpdateDTO
     public int? CurrentRoomCount { get; set; }
     public string? CurrentFullAddress { get; set; }
     public decimal? CurrentRentAmount { get; set; }
-    public string? CurrentNearestLandmark { get; set; }
+ 
     public string? PreviousAddressRegion { get; set; }
     public string? PreviousHousingType { get; set; }
     public int? PreviousRoomCount { get; set; }
@@ -187,10 +202,8 @@ public class FamilyUpdateDTO : BaseUpdateDTO
     public string? ApplianceType { get; set; }
     public string? ApplianceImageUrl { get; set; }
     public int? Score { get; set; } = 0;
-
-    public Status? Status { get; set; }
-    public List<Guid> OrphanIds { get; set; } = new List<Guid>();
-
+    public bool? IsActive { get; set; }
+    public bool? IsSponsored { get; set; } 
 
 }
 
@@ -198,6 +211,6 @@ public class FamilyFilter : BaseFilter
 {
     public string? FatherName { get; set; }
     public string? MotherName { get; set; }
-    public Status? Status { get; set; }
-
+    public bool? IsActive { get; set; }
+    public bool? IsSponsored { get; set; } 
 }

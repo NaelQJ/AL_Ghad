@@ -35,12 +35,29 @@ public class OrphanDTO : BaseDTO
     public string? TalentType { get; set; }
     public string? TalentNotes { get; set; }
     public int Score { get; set; }
+    public bool IsSponsored { get; set; } 
 
 
     #endregion
 
 }
+public class OrphanSimplDTO : BaseDTO
+{
+    #region Auto
+    #endregion
 
+    #region Manual
+  
+    public string FullName { get; set; }
+    public string Lineage { get; set; }
+    public string FatherName { get; set; }
+    public string SponsorName { get; set; }
+    public bool IsSponsored { get; set; }
+    public int Score { get; set; }
+
+    #endregion
+
+}
 public class OrphanFormDTO : BaseFormDTO
 {
     public Guid? FamilyId { get; set; }
@@ -193,6 +210,7 @@ public class OrphanUpdateDTO : BaseUpdateDTO
     [MaxLength(1024)]
     public string? TalentNotes { get; set; }
     public int? Score { get; set; } = 0;
+    public bool IsSponsored { get; set; } 
 }
 
 public class OrphanFilter : BaseFilter
@@ -202,4 +220,5 @@ public class OrphanFilter : BaseFilter
     public int? Score { get; set; }
     public string? Gender { get; set; }
     public Guid? FamilyId { get; set; }
+    public bool? IsSponsored { get; set; } 
 }

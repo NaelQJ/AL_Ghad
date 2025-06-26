@@ -32,7 +32,7 @@ public class SponsorsController : BaseController
     [Authorize]
     [TypeFilter(typeof(SoftDeleteAccessFilterActionFilter))]
     [HttpGet]
-    public async Task<ActionResult<Response<PagedList<SponsorDTO>>>> GetAll([FromQuery] SponsorFilter filter) =>
+    public async Task<ActionResult<Response<PagedList<SponsorSimplDTO>>>> GetAll([FromQuery] SponsorFilter filter) =>
         Ok(await _sponsorsService.GetAll(filter));
 
     /// <summary>
@@ -54,7 +54,7 @@ public class SponsorsController : BaseController
     /// </remarks>
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<Response<SponsorDTO>>> Create([Required][FromBody] SponsorFormDTO form)
+    public async Task<ActionResult<Response<SponsorSimplDTO>>> Create([Required][FromBody] SponsorFormDTO form)
     {
         form.UserId = CurId;
         return Ok(await _sponsorsService.Create(form));

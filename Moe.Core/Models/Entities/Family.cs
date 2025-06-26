@@ -10,6 +10,8 @@ public class Family : BaseEntity
     #endregion
 
     #region Functional
+    public bool IsActive { get; set; }
+    public bool IsSponsored { get; set; } = false;
     public Status Status { get; set; } = Status.Pending;
     #endregion
 
@@ -57,8 +59,7 @@ public class Family : BaseEntity
 
     public decimal CurrentRentAmount { get; set; }
 
-    [MaxLength(128)]
-    public string CurrentNearestLandmark { get; set; }
+
 
 
     [MaxLength(64)]
@@ -112,6 +113,7 @@ public class Family : BaseEntity
     public ICollection<Orphan> Orphans { get; set; } = new List<Orphan>();
     public ICollection<Document> Documents { get; set; } = new List<Document>();
     public ICollection<Device> Devices { get; set; } = new List<Device>();
+    public ICollection<SponsorShip> SponsorShips { get; set; } = new List<SponsorShip>();
     #endregion
 
 }

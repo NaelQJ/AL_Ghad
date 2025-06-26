@@ -72,6 +72,7 @@ public class AutoMapperProfile : Profile
 
         
         CreateMap<Sponsor,SponsorDTO>();
+        CreateMap<Sponsor, SponsorSimplDTO>();
         CreateMap<SponsorFormDTO,Sponsor>();
         CreateMap<SponsorUpdateDTO,Sponsor>()
             .IgnoreNullAndEmptyGuids();
@@ -87,6 +88,15 @@ public class AutoMapperProfile : Profile
             .IgnoreNullAndEmptyGuids();
         
         CreateMap<Orphan,OrphanDTO>();
+        CreateMap<Orphan, OrphanSimplDTO>()
+              .ForMember(dest => dest.SponsorName,
+           opt => opt.MapFrom(src => src.SponsorShips
+               .Where(s => s.status == Status.Active)
+               .Select(s => s.Sponsor.FullName)
+               .FirstOrDefault() ?? "لا يوجد كفيل"))
+              .ForMember(dest => dest.FatherName,
+              opt => opt.MapFrom(src => src.Family.FatherName ?? "لا يوجد "));
+
         CreateMap<OrphanFormDTO,Orphan>();
         CreateMap<OrphanUpdateDTO,Orphan>()
             .IgnoreNullAndEmptyGuids();
@@ -96,6 +106,13 @@ public class AutoMapperProfile : Profile
 
 
         CreateMap<Family, FamilyDTO>();
+        CreateMap<Family, FamilySimpleDTO>()
+       .ForMember(dest => dest.SponsorName,
+           opt => opt.MapFrom(src => src.SponsorShips
+               .Where(s => s.status == Status.Active)
+               .Select(s => s.Sponsor.FullName)
+               .FirstOrDefault() ?? "لا يوجد كفيل"));
+        CreateMap<FamilySimpleDTO, Family>();
         CreateMap<FamilyFormDTO, Family>()
         .ForMember(dest => dest.Orphans, opt => opt.Ignore())
                  .ForMember(dest => dest.Documents, opt => opt.MapFrom(src =>

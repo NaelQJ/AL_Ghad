@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moe.Core.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moe.Core.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250625223942_addcolmactive")]
+    partial class addcolmactive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -350,6 +353,10 @@ namespace Moe.Core.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
 
+                    b.Property<string>("CurrentNearestLandmark")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
+
                     b.Property<decimal>("CurrentRentAmount")
                         .HasColumnType("numeric");
 
@@ -391,9 +398,6 @@ namespace Moe.Core.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsSponsored")
                         .HasColumnType("boolean");
 
                     b.Property<string>("MotherJop")
@@ -455,9 +459,6 @@ namespace Moe.Core.Migrations
                     b.Property<string>("SecondDeceasedName")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -720,9 +721,6 @@ namespace Moe.Core.Migrations
                     b.Property<bool?>("IsHereditary")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsSponsored")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Lineage")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
@@ -777,6 +775,9 @@ namespace Moe.Core.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<string>("TalentNotes")
@@ -1008,9 +1009,6 @@ namespace Moe.Core.Migrations
                     b.Property<string>("Phone")
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("integer");
 
                     b.Property<string>("SponsoredFor")
                         .HasMaxLength(128)
@@ -1340,19 +1338,17 @@ namespace Moe.Core.Migrations
             modelBuilder.Entity("Moe.Core.Models.Entities.SponsorShip", b =>
                 {
                     b.HasOne("Moe.Core.Models.Entities.Family", "Family")
-                        .WithMany("SponsorShips")
-                        .HasForeignKey("FamilyId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("FamilyId");
 
                     b.HasOne("Moe.Core.Models.Entities.Orphan", "Orphan")
-                        .WithMany("SponsorShips")
-                        .HasForeignKey("OrphanId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("OrphanId");
 
                     b.HasOne("Moe.Core.Models.Entities.Sponsor", "Sponsor")
                         .WithMany("SponsorShips")
                         .HasForeignKey("SponsorId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Family");
@@ -1374,15 +1370,11 @@ namespace Moe.Core.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("Orphans");
-
-                    b.Navigation("SponsorShips");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Orphan", b =>
                 {
                     b.Navigation("Documents");
-
-                    b.Navigation("SponsorShips");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Role", b =>

@@ -10,9 +10,9 @@ namespace Moe.Core.Services;
 
 public interface ISponsorsService
 {
-    Task<Response<PagedList<SponsorDTO>>> GetAll(SponsorFilter filter);
+    Task<Response<PagedList<SponsorSimplDTO>>> GetAll(SponsorFilter filter);
     Task<Response<SponsorDTO>> GetById(Guid id);
-    Task<Response<SponsorDTO>> Create(SponsorFormDTO form);
+    Task<Response<SponsorSimplDTO>> Create(SponsorFormDTO form);
     Task Update(SponsorUpdateDTO update);
     Task Delete(Guid id);
 }
@@ -22,7 +22,7 @@ public class SponsorsService : BaseService, ISponsorsService
     public SponsorsService(MasterDbContext context, IMapper mapper) : base(context, mapper)
     { }
 
-    public async Task<Response<PagedList<SponsorDTO>>> GetAll(SponsorFilter filter)
+    public async Task<Response<PagedList<SponsorSimplDTO>>> GetAll(SponsorFilter filter)
     {
         var sponsors = await _context.Sponsors
             .WhereBaseFilter(filter)
@@ -34,10 +34,10 @@ public class SponsorsService : BaseService, ISponsorsService
             .Where(e => string.IsNullOrWhiteSpace(filter.JobTitle) || e.JobTitle.ToLower().Contains(filter.JobTitle.ToLower()))
             .Where(e => string.IsNullOrWhiteSpace(filter.Address) || e.Address.ToLower().Contains(filter.Address.ToLower()))
             .OrderByCreationDate()
-            .ProjectTo<SponsorDTO>(_mapper.ConfigurationProvider)
+            .ProjectTo<SponsorSimplDTO>(_mapper.ConfigurationProvider)
             .Paginate(filter);
 
-        return new Response<PagedList<SponsorDTO>>(sponsors, null, 200);
+        return new Response<PagedList<SponsorSimplDTO>>(sponsors, null, 200);
     }
 
     public async Task<Response<SponsorDTO>> GetById(Guid id)
@@ -46,11 +46,11 @@ public class SponsorsService : BaseService, ISponsorsService
         return new Response<SponsorDTO>(dto, null, 200);
     }
 
-    public async Task<Response<SponsorDTO>> Create(SponsorFormDTO form)
+    public async Task<Response<SponsorSimplDTO>> Create(SponsorFormDTO form)
     {
-        var dto = await _context.CreateWithMapper<Sponsor, SponsorDTO>(form, _mapper);
+        var dto = await _context.CreateWithMapper<Sponsor, SponsorSimplDTO>(form, _mapper);
 
-        return new Response<SponsorDTO>(dto, null, 200);
+        return new Response<SponsorSimplDTO>(dto, null, 200);
     }
 
     public async Task Update(SponsorUpdateDTO update)
