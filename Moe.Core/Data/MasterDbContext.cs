@@ -26,6 +26,7 @@ public class MasterDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
 
     //{{INSERTION_POINT}}  
+    public DbSet<Warehouse> Warehouses { get; set; }
     public DbSet<Support> Supports { get; set; }
     public DbSet<SponsorShip> SponsorShips { get; set; }
     public DbSet<Sponsor> Sponsors { get; set; }

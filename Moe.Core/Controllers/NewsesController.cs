@@ -32,7 +32,7 @@ public class NewsesController : BaseController
 	[Authorize]
 	[TypeFilter(typeof(SoftDeleteAccessFilterActionFilter))]
 	[HttpGet]
-	public async Task<ActionResult<Response<PagedList<NewsDTO>>>> GetAll([FromQuery] NewsFilter filter) =>
+	public async Task<ActionResult<Response<PagedList<NewsSimpleDTO>>>> GetAll([FromQuery] NewsFilter filter) =>
 		Ok(await _newsesService.GetAll(filter));
 
     /// <summary>
@@ -50,26 +50,26 @@ public class NewsesController : BaseController
     /// Creates a new instance 
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// status:'Draft = 0 , Published = 10 ,Unpublished = 20'
     /// </remarks>
-    [Authorize]
-	[HttpPost]
+    [Authorize(Roles = "super-admin")]
+    [HttpPost]
 	public async Task<ActionResult<Response<NewsDTO>>> Create([Required] [FromBody] NewsFormDTO form)
 	{
 		form.Editor = CurId;
      return Ok(await _newsesService.Create(form));
     }
-		
+
 
     /// <summary>
     /// Updates an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-	[Authorize]
-	[HttpPut("{id}")]
+    [Authorize(Roles = "super-admin")]
+    [HttpPut("{id}")]
 	[ProducesResponseType(204)]
 	[ProducesResponseType(404)]
 	public async Task<IActionResult> Update([Required] [FromBody] NewsUpdateDTO update, Guid id)
@@ -84,10 +84,10 @@ public class NewsesController : BaseController
     /// Deletes an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-	[Authorize]
-	[HttpDelete("{id}")]
+	[Authorize(Roles = "super-admin")]
+    [HttpDelete("{id}")]
 	[ProducesResponseType(204)]
 	[ProducesResponseType(404)]
 	public async Task<IActionResult> Delete(Guid id)

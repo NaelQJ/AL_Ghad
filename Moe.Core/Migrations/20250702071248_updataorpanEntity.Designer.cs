@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moe.Core.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moe.Core.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250702071248_updataorpanEntity")]
+    partial class updataorpanEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -984,6 +987,9 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
+                    b.Property<DateTime>("EndSpons")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
@@ -1067,9 +1073,6 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
-                    b.Property<DateTime>("EndSpons")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<Guid?>("FamilyId")
                         .HasColumnType("uuid");
 
@@ -1081,9 +1084,6 @@ namespace Moe.Core.Migrations
 
                     b.Property<Guid>("SponsorId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartSpons")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");

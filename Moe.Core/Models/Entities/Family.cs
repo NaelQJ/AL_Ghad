@@ -10,7 +10,7 @@ public class Family : BaseEntity
     #endregion
 
     #region Functional
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = false; 
     public bool IsSponsored { get; set; } = false;
     public Status Status { get; set; } = Status.Pending;
     #endregion
@@ -29,10 +29,13 @@ public class Family : BaseEntity
     public string FatherJob { get; set; }
 
     [MaxLength(128)]
-    public string SecondDeceasedName { get; set; }
+    public string? SecondDeceasedName { get; set; }
+
+    [Range(1, int.MaxValue)]
+    public int OrphanCount { get; set; }
 
 
-    
+
     [MaxLength(128)]
     public string MotherName { get; set; }
 
@@ -46,66 +49,64 @@ public class Family : BaseEntity
     public string MotherPhone { get; set; }
 
 
-    [MaxLength(64)]
-    public string CurrentAddressRegion { get; set; }
 
-    [MaxLength(32)]
-    public string CurrentHousingType { get; set; }
+    [MaxLength(128)]
+    public string CurrentAddress { get; set; }
 
-    public int? CurrentRoomCount { get; set; }
-
-    [MaxLength(256)]
+    [MaxLength(128)]
     public string CurrentFullAddress { get; set; }
 
-    public decimal CurrentRentAmount { get; set; }
+    [MaxLength(128)]
+    public string CurrentHousingType { get; set; }
+    public int CurrentRoomCount { get; set; }
+    public decimal? CurrentRentAmount { get; set; }
 
 
 
-
-    [MaxLength(64)]
-    public string? PreviousAddressRegion { get; set; }
-
-    [MaxLength(32)]
-    public string? PreviousHousingType { get; set; }
-
-    public int? PreviousRoomCount { get; set; }
-
-    [MaxLength(256)]
-    public string? PreviousFullAddress { get; set; }
 
     [MaxLength(128)]
-    public string? PreviousNearestLandmark { get; set; }
-
-
-
-    public decimal FamilyIncome { get; set; }
+    public string PreviousAddress { get; set; }
 
     [MaxLength(128)]
-    public string? RetirementProvider { get; set; }
+    public string PreviousFullAddress { get; set; }
 
     [MaxLength(128)]
-    public string? AssistanceProvider { get; set; }
+    public string PreviousHousingType { get; set; }
+    public int PreviousRoomCount { get; set; }
 
     [MaxLength(128)]
-    public string? WelfareProvider { get; set; }
+    public string NearestLandmark { get; set; }
+
+
+    [Range(10, 1000000)]
+    public decimal Totalincome { get; set; }
 
     [MaxLength(128)]
-    public string? FamilyProjectName { get; set; }
-    public int? WorkingMembersCount { get; set; }
-    public int OrphanCount { get; set; }   
+    public string? Retirement { get; set; }
+
+    [MaxLength(128)]
+    public string? Assistance { get; set; }
+
+    [MaxLength(128)]
+    public string? Welfare { get; set; }
+
+    [MaxLength(128)]
+    public string? FamilyProject { get; set; }
+    public int WorkingCount { get; set; }
+   
 
 
 
-    [MaxLength(64)]
+    [MaxLength(128)]
     public string? ProjectType { get; set; }
-    public bool CanDevelopProject { get; set; }
-    public bool CanStartNewProject { get; set; }
+    public bool? CanDevelopProject { get; set; }
+    public bool? CanStartNewProject { get; set; }
     public decimal? ProposedBudget { get; set; }
 
     [MaxLength(1024)]
-    public string? Notes { get; set; }
+    public string Notes { get; set; }
 
-    public int Score { get; set; } = 0 ;
+    public int? Score { get; set; } = 0;
 
     #endregion
 
@@ -114,6 +115,7 @@ public class Family : BaseEntity
     public ICollection<Document> Documents { get; set; } = new List<Document>();
     public ICollection<Device> Devices { get; set; } = new List<Device>();
     public ICollection<SponsorShip> SponsorShips { get; set; } = new List<SponsorShip>();
+    public ICollection<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
     #endregion
 
 }

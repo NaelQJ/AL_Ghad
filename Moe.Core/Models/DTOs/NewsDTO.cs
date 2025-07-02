@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.Validators;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moe.Core.Models.Entities;
 using System.ComponentModel.DataAnnotations;
@@ -13,12 +15,26 @@ public class NewsDTO : BaseDTO
 
     #region Manual
     public string Title { get; set; }
-    public string Content { get; set; }
     public string CoverImage { get; set; }
+    public string Content { get; set; }
+ 
     public StatusNews Status { get; set; }
     #endregion
 
-} 
+}
+
+public class NewsSimpleDTO : BaseDTO
+{
+    #region Auto
+    #endregion
+
+    #region Manual
+    public string Title { get; set; }
+    public int ViewsCount { get; set; } = 0;
+    public StatusNews Status { get; set; }
+    #endregion
+
+}
 
 public class NewsFormDTO : BaseFormDTO
 {
@@ -39,10 +55,20 @@ public class NewsFormDTO : BaseFormDTO
     public Guid Editor { get; set; }
 }
 
+public class NewsFormValdation : AbstractValidator<NewsFormDTO>
+{
+    public NewsFormValdation()
+    {
+       RuleFor(x => x.Status)
+      .IsInEnum()
+      .WithMessage("Invalid status selected.");
+    }
+}
+
 public class NewsUpdateDTO : BaseUpdateDTO
 {
     public string? Title { get; set; }
-    public string? Content { get; set; }
+    public string? Content { get; set; }    
     public string? CoverImage { get; set; }
     public StatusNews? Status { get; set; }
 }

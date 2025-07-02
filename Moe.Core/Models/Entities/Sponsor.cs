@@ -12,15 +12,11 @@ public class Sponsor : BaseEntity
     #endregion
 
     #region Functional
-
     public Status Status { get; set; } = Status.Pending;
-
     public Payment PaymentMethod { get; set; } = Payment.Cash;
-
     #endregion
 
     #region Non-Functional
-
     [MaxLength(128)]
     public string FullName { get; set; }
 
@@ -45,6 +41,8 @@ public class Sponsor : BaseEntity
     [MaxLength(16)]
     public string Phone { get; set; }
 
+    public DateTime StartSpons { get; set; }
+
 
     [MaxLength(128)]
     public string Study { get; set; }
@@ -53,17 +51,16 @@ public class Sponsor : BaseEntity
 
     public decimal AmountOrphan { get; set; } // The amount allocated to each orphan
 
-    public DateTime StartSpons { get; set; }
 
-  
     [MaxLength(128)]
     public string? HowFoundUs { get; set; } // How did you find out about the organization?
 
 
     [MaxLength(128)]
     public string? Intermediary { get; set; } // The person I knew inside the organization to the organization
-    public int Score { get; set; }
+    public int? Score { get; set; } = 0;
 
+    public int? Wallet { get; set; } = 0; 
     #endregion
 
     #region Many-To-N

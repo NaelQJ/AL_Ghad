@@ -28,6 +28,8 @@ public class SponsorsController : BaseController
     /// </summary>
     /// <remarks>
     /// Required Roles: `Any`
+    /// 
+    /// Status : '  Active = 10,  Pending = 0,  Rejected = 20'
     /// </remarks>
     [Authorize]
     [TypeFilter(typeof(SoftDeleteAccessFilterActionFilter))]
@@ -51,6 +53,8 @@ public class SponsorsController : BaseController
     /// </summary>
     /// <remarks>
     /// Required Roles: `Any`
+    /// 
+    /// Payment : 'Cash = 0, CreditCard = 1,' 
     /// </remarks>
     [Authorize]
     [HttpPost]
@@ -65,6 +69,9 @@ public class SponsorsController : BaseController
     /// </summary>
     /// <remarks>
     /// Required Roles: `Any`
+    /// 
+    /// Status : 'Active = 10,  Pending = 0,  Rejected = 20'
+    /// Payment: 'Cash = 0, CreditCard = 1' 
     /// </remarks>
     [Authorize]
     [HttpPut("{id}")]

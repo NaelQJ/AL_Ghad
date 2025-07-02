@@ -5,6 +5,8 @@ using Moe.Core.Data;
 using Moe.Core.Extensions;
 using Moe.Core.Helpers;
 using Moe.Core.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using Moe.Core.Null;
 
 namespace Moe.Core.Services;
 
@@ -41,7 +43,14 @@ public class OrphansService : BaseService, IOrphansService
 
     public async Task<Response<OrphanDTO>> GetById(Guid id)
     {
-        var dto = await _context.GetByIdOrException<Orphan, OrphanDTO>(id);
+        var Orphan = await _context.Orphans
+            .Include(o => o.Documents)
+        .FirstOrDefaultAsync(f => f.Id == id);
+
+        if (Orphan == null)
+            return new Response<OrphanDTO>(null, "Not Found", 404);
+
+        var dto = _mapper.Map<OrphanDTO>(Orphan);
         return new Response<OrphanDTO>(dto, null, 200);
     }
 
@@ -55,6 +64,26 @@ public class OrphansService : BaseService, IOrphansService
     public async Task Update(OrphanUpdateDTO update)
     {
         await _context.UpdateWithMapperOrException<Orphan, OrphanUpdateDTO>(update, _mapper);
+
+        var orphan = await _context.Orphans
+            .Include(o => o.Documents)
+            .FirstOrDefaultAsync(o => o.Id == update.Id);
+        if (orphan == null)
+            ErrResponseThrower.NotFound();
+
+        if (update.Documents != null)
+        {
+            orphan.Documents.Clear();
+            foreach (var file in update.Documents)
+            {
+                orphan.Documents.Add(new Document
+                {
+                    FilePath = file,
+                    OrphanId = orphan.Id
+                });
+            }
+        }
+        await _context.SaveChangesAsync();
     }
 
     public async Task Delete(Guid id) =>

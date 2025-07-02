@@ -29,6 +29,9 @@ public class Orphan : BaseEntity
     [MaxLength(128)]
     public string Lineage { get; set; }
 
+    [MaxLength(1024)]
+    public string Details { get; set; }
+
 
 
     [MaxLength(128)]
@@ -43,22 +46,22 @@ public class Orphan : BaseEntity
     public string? IllnessType { get; set; }
 
     [MaxLength(512)]
-    public string? PreviousSurgeries { get; set; }
+    public string? PreviousSurgeries { get; set; } // العمليات السابقة 
 
     [MaxLength(512)]
-    public string? PermanentDisabilities { get; set; }
+    public string? PermanentDisabilities { get; set; } // العاهات المستديمة
 
-    public bool? IsHereditary { get; set; }
+    public bool? IsHereditary { get; set; } // هل المرض وراثي
 
     [MaxLength(512)]
-    public string? MedFollowUp { get; set; }
+    public string? MedFollowUp { get; set; } // الادوية والمراجعة 
 
-    public int? MedFollowUpCount { get; set; }
+    public int? MedFollowUpCount { get; set; } // عدد مرات المراجعة
 
-    public decimal? TotalAmount { get; set; }
+    public decimal? TotalAmount { get; set; } // المبلغ الكلي للعلاج
 
     [MaxLength(128)]
-    public string? MedSpecialty { get; set; }
+    public string? MedSpecialty { get; set; } // تخصص الطبي
 
     [MaxLength(1024)]
     public string? MedicalNotes { get; set; }
@@ -73,7 +76,7 @@ public class Orphan : BaseEntity
 
     public string SchoolType { get; set; }
 
-    public decimal? SchoolFees { get; set; }
+    public decimal? SchoolFees { get; set; } 
 
     [MaxLength(128)]
     public string SchoolFeesSource { get; set; }
@@ -84,11 +87,16 @@ public class Orphan : BaseEntity
     [MaxLength(1024)]
     public string? SchoolNotes { get; set; }
 
+
+
+
     [MaxLength(128)]
     public string? TalentType { get; set; }
 
     [MaxLength(1024)]
     public string? TalentNotes { get; set; }
+
+
 
     public int Score { get; set; } = 0;
     #endregion

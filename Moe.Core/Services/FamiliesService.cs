@@ -8,6 +8,7 @@ using Moe.Core.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Moe.Core.Models.DTOs.User;
+using Moe.Core.Null;
 
 namespace Moe.Core.Services;
 
@@ -45,8 +46,18 @@ public class FamiliesService : BaseService, IFamiliesService
 
     public async Task<Response<FamilyDTO>> GetById(Guid id)
     {
-        var dto = await _context.GetByIdOrException<Family, FamilyDTO>(id);
-        return new Response<FamilyDTO>(dto, null, 200);
+        var family = await _context.Families
+         .Include(f => f.Orphans).ThenInclude(o => o.SponsorShips)
+         .Include(f => f.Documents)
+         .Include(f => f.Devices)
+         .Include(f => f.Warehouses)
+         .FirstOrDefaultAsync(f => f.Id == id);
+
+        if (family == null)
+            return new Response<FamilyDTO>(null, "Not Found", 404);
+
+        var dto = _mapper.Map<FamilyDTO>(family);
+        return new Response<FamilyDTO>(dto , null ,200);
     }
 
     public async Task<Response<FamilySimpleDTO>> Create(FamilyFormDTO form)
@@ -56,13 +67,54 @@ public class FamiliesService : BaseService, IFamiliesService
     }
 
 
-
-
-
     public async Task Update(FamilyUpdateDTO update)
     {
+        
         await _context.UpdateWithMapperOrException<Family, FamilyUpdateDTO>(update, _mapper);
+
+       
+        var family = await _context.Families
+            .Include(f => f.Documents)
+            .Include(f => f.Devices)
+            .FirstOrDefaultAsync(f => f.Id == update.Id);
+
+        if (family == null)
+            ErrResponseThrower.NotFound();
+
+      
+        if (update.Documents != null)
+        {
+            family.Documents.Clear();
+            foreach (var file in update.Documents)
+            {
+                family.Documents.Add(new Document
+                {
+                    FilePath = file,
+                    FamilyId = family.Id
+                });
+            }
+        }
+
+
+      
+        if (update.Devices != null)
+        {
+            family.Devices.Clear();
+            foreach (var file in update.Devices)
+            {
+                family.Devices.Add(new Device
+                {
+                    DevicePath = file,
+                    FamilyId = family.Id
+                });
+            }
+        }
+
+    
+
+        await _context.SaveChangesAsync();
     }
+
 
     public async Task Delete(Guid id)
     {

@@ -50,10 +50,10 @@ public class CampaignsController : BaseController
     /// Creates a new instance
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// status : ' Draft = 0 , Completed = 10,  Active = 20,' 
     /// </remarks>
-	[Authorize]
+    [Authorize(Roles = "super-admin")]
     [HttpPost]
     public async Task<ActionResult<Response<CampaignDTO>>> Create([Required][FromBody] CampaignFormDTO form)
     {
@@ -66,9 +66,9 @@ public class CampaignsController : BaseController
     /// Updates an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-    [Authorize]
+    [Authorize(Roles = "super-admin")]
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
@@ -84,9 +84,9 @@ public class CampaignsController : BaseController
     /// Deletes an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-	[Authorize]
+    [Authorize(Roles = "super-admin")]
     [HttpDelete("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]

@@ -48,100 +48,92 @@ public class AutoMapperProfile : Profile
 
         //{{INSERTION_POINT}}
         
-        CreateMap<Support,SupportDTO>();
-        CreateMap<SupportFormDTO,Support>();
-        CreateMap<SupportUpdateDTO,Support>()
+        CreateMap<Warehouse,WarehouseDTO>();
+        CreateMap<Warehouse, WarehouseSimpleDTO>()
+            .ForMember(dest => dest.FamilyName, opt => opt.MapFrom(src => src.Family.FatherName));
+        CreateMap<Warehouse, WarehouseOutDTO>();
+        CreateMap<WarehouseFormDTO,Warehouse>()
+         .ForMember(dest => dest.Type, opt => opt.MapFrom(src => ItemType.In));
+        CreateMap<WarehouseFormOutDTO, Warehouse>();
+        CreateMap<WarehouseFormOutDTO, WarehouseOutDTO>();
+        CreateMap<WarehouseUpdateDTO,Warehouse>()
+            .IgnoreNullAndEmptyGuids();
+
+
+        //Warehouse Beneficiary and donation Mapping
+        CreateMap<Family, BeneficiaryDTO>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FatherName));
+        CreateMap<Orphan, BeneficiaryDTO>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName));
+        CreateMap<Warehouse, WarehouseDTO>()
+            .ForMember(dest => dest.Donation, opt => opt.MapFrom(src => src))
+            .ForMember(dest => dest.beneficiary, opt => opt.Ignore()) 
+            .AfterMap((src, dest, ctx) =>
+            {
+                if (src.Family != null)
+                    dest.beneficiary = ctx.Mapper.Map<BeneficiaryDTO>(src.Family);
+                else if (src.Orphan != null)
+                    dest.beneficiary = ctx.Mapper.Map<BeneficiaryDTO>(src.Orphan);
+            });
+
+        CreateMap<Warehouse, DonationDTO>();
+
+
+
+
+        CreateMap<Support, SupportDTO>();
+        CreateMap<SupportFormDTO, Support>();
+        CreateMap<SupportUpdateDTO, Support>()
             .IgnoreNullAndEmptyGuids();
         CreateMap<SponsorShip, SponsorShipDTO>()
        .ForMember(dest => dest.Sponsor, opt => opt.MapFrom(src => src.Sponsor))
        .ForMember(dest => dest.Orphan, opt => opt.MapFrom(src => src.Orphan))
        .ForMember(dest => dest.Family, opt => opt.MapFrom(src => src.Family));
 
-        CreateMap<Sponsor, SponsorSympleDto>()
+        CreateMap<Sponsor, SponsorDetailsDTO>()
             .ForMember(dest => dest.SponsoredFor, opt => opt.MapFrom(src =>
                 src.SponsorShips.Any(s => s.OrphanId != null) ? "Orphan" :
                 src.SponsorShips.Any(s => s.FamilyId != null) ? "Family" : null));
-           
-
-        CreateMap<Orphan, OrphanSympleDto>();
-        CreateMap<Family, FamliySympleDto>();
+        CreateMap<Orphan, OrphanDetailsDTO>();
+        CreateMap<Family, FamilyDetailsDTO>();
 
         CreateMap<SponsorShipFormDTO, SponsorShip>();
         CreateMap<SponsorShipUpdateDTO, SponsorShip>()
             .IgnoreNullAndEmptyGuids();
 
-        
-        CreateMap<Sponsor,SponsorDTO>();
+
+        CreateMap<Sponsor, SponsorDTO>();
         CreateMap<Sponsor, SponsorSimplDTO>();
-        CreateMap<SponsorFormDTO,Sponsor>();
-        CreateMap<SponsorUpdateDTO,Sponsor>()
+        CreateMap<SponsorFormDTO, Sponsor>();
+        CreateMap<SponsorUpdateDTO, Sponsor>()
             .IgnoreNullAndEmptyGuids();
-        
-        CreateMap<Campaign,CampaignDTO>();
-        CreateMap<CampaignFormDTO,Campaign>();
-        CreateMap<CampaignUpdateDTO,Campaign>()
+
+        CreateMap<Campaign, CampaignDTO>();
+        CreateMap<CampaignFormDTO, Campaign>();
+        CreateMap<CampaignUpdateDTO, Campaign>()
             .IgnoreNullAndEmptyGuids();
-        
-        CreateMap<News,NewsDTO>();
-        CreateMap<NewsFormDTO,News>();
-        CreateMap<NewsUpdateDTO,News>()
+
+        CreateMap<News, NewsDTO>();
+        CreateMap<News, NewsSimpleDTO>();
+        CreateMap<NewsFormDTO, News>();
+        CreateMap<NewsUpdateDTO, News>()
             .IgnoreNullAndEmptyGuids();
-        
-        CreateMap<Orphan,OrphanDTO>();
-        CreateMap<Orphan, OrphanSimplDTO>()
-              .ForMember(dest => dest.SponsorName,
-           opt => opt.MapFrom(src => src.SponsorShips
-               .Where(s => s.status == Status.Active)
-               .Select(s => s.Sponsor.FullName)
-               .FirstOrDefault() ?? "لا يوجد كفيل"))
-              .ForMember(dest => dest.FatherName,
-              opt => opt.MapFrom(src => src.Family.FatherName ?? "لا يوجد "));
 
-        CreateMap<OrphanFormDTO,Orphan>();
-        CreateMap<OrphanUpdateDTO,Orphan>()
+   
+
+
+ 
+
+
+        CreateMap<SystemSettings, SystemSettingsDTO>();
+        CreateMap<SystemSettingsFormDTO, SystemSettings>();
+        CreateMap<SystemSettingsUpdateDTO, SystemSettings>()
             .IgnoreNullAndEmptyGuids();
-        CreateMap<Orphan, Document>()
-                   .ForMember(dest => dest.OrphanId, opt => opt.MapFrom(src => src.Id))
-                   .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => src.Documents));
+        CreateMap<Permission, PermissionDTO>();
 
-
-        CreateMap<Family, FamilyDTO>();
-        CreateMap<Family, FamilySimpleDTO>()
-       .ForMember(dest => dest.SponsorName,
-           opt => opt.MapFrom(src => src.SponsorShips
-               .Where(s => s.status == Status.Active)
-               .Select(s => s.Sponsor.FullName)
-               .FirstOrDefault() ?? "لا يوجد كفيل"));
-        CreateMap<FamilySimpleDTO, Family>();
-        CreateMap<FamilyFormDTO, Family>()
-        .ForMember(dest => dest.Orphans, opt => opt.Ignore())
-                 .ForMember(dest => dest.Documents, opt => opt.MapFrom(src =>
-                src.Documents.Select(documentName => new Document { FilePath = documentName }).ToList())) 
-            .ForMember(dest => dest.Devices, opt => opt.MapFrom(src =>
-                src.Devices.Select(deviceName => new Device { DevicePath = deviceName }).ToList())); 
-        
-      
-        CreateMap<FamilyUpdateDTO,Family>()
-            .IgnoreNullAndEmptyGuids();
-        CreateMap<Family, Document>()
-       .ForMember(dest => dest.FamilyId, opt => opt.MapFrom(src => src.Id))
-       .ForMember(dest => dest.FilePath, opt => opt.MapFrom(src => string.Join(",", src.Documents)));
-
-
-        CreateMap<Family, Device>()
-       .ForMember(dest => dest.FamilyId, opt => opt.MapFrom(src => src.Id))
-       .ForMember(dest => dest.DevicePath, opt => opt.MapFrom(src => string.Join(",", src.Devices)));
-
-
-        CreateMap<SystemSettings,SystemSettingsDTO>();
-        CreateMap<SystemSettingsFormDTO,SystemSettings>();
-        CreateMap<SystemSettingsUpdateDTO,SystemSettings>()
-            .IgnoreNullAndEmptyGuids();
-        CreateMap<Permission,PermissionDTO>();
-        
-        CreateMap<Role,RoleDTO>();
-        CreateMap<RoleFormDTO,Role>();
-        CreateMap<RoleUpdateDTO,Role>()
+        CreateMap<Role, RoleDTO>();
+        CreateMap<RoleFormDTO, Role>();
+        CreateMap<RoleUpdateDTO, Role>()
             .IgnoreNullAndEmptyGuids();
     }
 }

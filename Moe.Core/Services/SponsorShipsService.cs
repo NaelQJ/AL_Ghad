@@ -6,6 +6,7 @@ using Moe.Core.Extensions;
 using Moe.Core.Helpers;
 using Moe.Core.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Moe.Core.Null;
 
 namespace Moe.Core.Services;
 
@@ -44,15 +45,38 @@ public class SponsorShipsService : BaseService, ISponsorShipsService
 		return new Response<SponsorShipDTO>(dto, null, 200);
 	}
 
-	public async Task<Response<SponsorShipDTO>> Create(SponsorShipFormDTO form)
-	{
+    public async Task<Response<SponsorShipDTO>> Create(SponsorShipFormDTO form)
+    {
+       
+        if (form.FamilyId.HasValue)
+        {
+            var family = await _context.GetById<Family>(form.FamilyId.Value);
+            if (family == null)
+                ErrResponseThrower.NotFound("FAMILY_NOT_FOUND");
+            family.IsSponsored = true;
+            _context.Update(family);
+        }
 
-	    var dto = await _context.CreateWithMapper<SponsorShip,SponsorShipDTO>(form, _mapper);
+        if (form.OrphanId.HasValue)
+        {
+            var orphan = await _context.GetById<Orphan>(form.OrphanId.Value);
+            if (orphan == null)
+                ErrResponseThrower.NotFound("Orphan_NOT_FOUND");
+            orphan.IsSponsored = true;
+            _context.Update(orphan);
+        }
 
-		return new Response<SponsorShipDTO>(dto, null, 200);
-	}
+       
+        await _context.SaveChangesAsync();
 
-	public async Task Update(SponsorShipUpdateDTO update)
+        
+        var dto = await _context.CreateWithMapper<SponsorShip, SponsorShipDTO>(form, _mapper);
+
+        return new Response<SponsorShipDTO>(dto, null, 200);
+    }
+
+
+    public async Task Update(SponsorShipUpdateDTO update)
 	{
 	    await _context.UpdateWithMapperOrException<SponsorShip,SponsorShipUpdateDTO>(update, _mapper);
 	}

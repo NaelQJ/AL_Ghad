@@ -31,6 +31,7 @@ public class Campaign : BaseEntity
     public string ImageUrl { get; set; }
 
     public Guid Editor { get; set; }
+    public decimal? RemainingAmount { get; set; }
     #endregion
 
     #region Many-To-N

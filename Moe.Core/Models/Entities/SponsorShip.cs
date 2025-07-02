@@ -15,6 +15,10 @@ public class SponsorShip : BaseEntity
 
     #region Functional
     public Status status { get; set; } = Status.Pending;
+
+
+    public DateTime StartSpons { get; set; }
+    public DateTime EndSpons { get; set; }
     #endregion
 
     #region Non-Functional
@@ -22,4 +26,5 @@ public class SponsorShip : BaseEntity
 
     #region Many-To-N
     #endregion
+
 }

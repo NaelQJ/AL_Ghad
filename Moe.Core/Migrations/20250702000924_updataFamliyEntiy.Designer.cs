@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moe.Core.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moe.Core.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250702000924_updataFamliyEntiy")]
+    partial class updataFamliyEntiy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -686,10 +689,6 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Details")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)");
-
                     b.Property<int>("DisplayId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
@@ -783,7 +782,7 @@ namespace Moe.Core.Migrations
                     b.Property<string>("SchoolType")
                         .HasColumnType("text");
 
-                    b.Property<int>("Score")
+                    b.Property<int?>("Score")
                         .HasColumnType("integer");
 
                     b.Property<string>("TalentNotes")
@@ -984,6 +983,9 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
+                    b.Property<DateTime>("EndSpons")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
@@ -1067,9 +1069,6 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
-                    b.Property<DateTime>("EndSpons")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<Guid?>("FamilyId")
                         .HasColumnType("uuid");
 
@@ -1081,9 +1080,6 @@ namespace Moe.Core.Migrations
 
                     b.Property<Guid>("SponsorId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartSpons")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");

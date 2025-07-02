@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moe.Core.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moe.Core.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701001002_UdpateWarehouseEntity")]
+    partial class UdpateWarehouseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +59,6 @@ namespace Moe.Core.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<decimal?>("RemainingAmount")
-                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp without time zone");
@@ -328,35 +328,35 @@ namespace Moe.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Assistance")
+                    b.Property<string>("AssistanceProvider")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<bool?>("CanDevelopProject")
+                    b.Property<bool>("CanDevelopProject")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("CanStartNewProject")
+                    b.Property<bool>("CanStartNewProject")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("CurrentAddress")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                    b.Property<string>("CurrentAddressRegion")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("CurrentFullAddress")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("CurrentHousingType")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
 
-                    b.Property<decimal?>("CurrentRentAmount")
+                    b.Property<decimal>("CurrentRentAmount")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("CurrentRoomCount")
+                    b.Property<int?>("CurrentRoomCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("DeathCause")
@@ -375,7 +375,10 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
-                    b.Property<string>("FamilyProject")
+                    b.Property<decimal>("FamilyIncome")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("FamilyProjectName")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
@@ -412,10 +415,6 @@ namespace Moe.Core.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<string>("NearestLandmark")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
-
                     b.Property<string>("Notes")
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)");
@@ -423,29 +422,33 @@ namespace Moe.Core.Migrations
                     b.Property<int>("OrphanCount")
                         .HasColumnType("integer");
 
-                    b.Property<string>("PreviousAddress")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                    b.Property<string>("PreviousAddressRegion")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("PreviousFullAddress")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PreviousHousingType")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("PreviousNearestLandmark")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<int>("PreviousRoomCount")
+                    b.Property<int?>("PreviousRoomCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("ProjectType")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<decimal?>("ProposedBudget")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("Retirement")
+                    b.Property<string>("RetirementProvider")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
@@ -459,17 +462,14 @@ namespace Moe.Core.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Totalincome")
-                        .HasColumnType("numeric");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Welfare")
+                    b.Property<string>("WelfareProvider")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<int>("WorkingCount")
+                    b.Property<int?>("WorkingMembersCount")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -686,10 +686,6 @@ namespace Moe.Core.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Details")
-                        .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)");
-
                     b.Property<int>("DisplayId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
@@ -783,7 +779,7 @@ namespace Moe.Core.Migrations
                     b.Property<string>("SchoolType")
                         .HasColumnType("text");
 
-                    b.Property<int>("Score")
+                    b.Property<int?>("Score")
                         .HasColumnType("integer");
 
                     b.Property<string>("TalentNotes")
@@ -984,6 +980,9 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
+                    b.Property<DateTime>("EndSpons")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("FullName")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
@@ -1067,9 +1066,6 @@ namespace Moe.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DisplayId"));
 
-                    b.Property<DateTime>("EndSpons")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<Guid?>("FamilyId")
                         .HasColumnType("uuid");
 
@@ -1081,9 +1077,6 @@ namespace Moe.Core.Migrations
 
                     b.Property<Guid>("SponsorId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("StartSpons")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -1464,7 +1457,7 @@ namespace Moe.Core.Migrations
             modelBuilder.Entity("Moe.Core.Models.Entities.Warehouse", b =>
                 {
                     b.HasOne("Moe.Core.Models.Entities.Family", "Family")
-                        .WithMany("Warehouses")
+                        .WithMany()
                         .HasForeignKey("FamilyId");
 
                     b.HasOne("Moe.Core.Models.Entities.Orphan", "Orphan")
@@ -1490,8 +1483,6 @@ namespace Moe.Core.Migrations
                     b.Navigation("Orphans");
 
                     b.Navigation("SponsorShips");
-
-                    b.Navigation("Warehouses");
                 });
 
             modelBuilder.Entity("Moe.Core.Models.Entities.Orphan", b =>

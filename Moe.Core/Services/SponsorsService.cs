@@ -30,7 +30,7 @@ public class SponsorsService : BaseService, ISponsorsService
             .Where(e => filter.PaymentMethod == null || e.PaymentMethod == filter.PaymentMethod)
             .Where(e => string.IsNullOrWhiteSpace(filter.FullName) || e.FullName.ToLower().Contains(filter.FullName.ToLower()))
             .Where(e => filter.OrphanCount == null || e.OrphanCount == filter.OrphanCount)
-            .Where(e => filter.StartSpons == null || e.StartSpons == filter.StartSpons)
+            
             .Where(e => string.IsNullOrWhiteSpace(filter.JobTitle) || e.JobTitle.ToLower().Contains(filter.JobTitle.ToLower()))
             .Where(e => string.IsNullOrWhiteSpace(filter.Address) || e.Address.ToLower().Contains(filter.Address.ToLower()))
             .OrderByCreationDate()

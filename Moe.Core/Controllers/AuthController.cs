@@ -49,9 +49,6 @@ public class AuthController : BaseController
     ///   Email: <c>superadmin@example.com</c>
     ///   Phone: <c>+964700000001</c>
     ///
-    /// -  Admin:
-    ///   Email: <c>admin@example.com</c>
-    ///   Phone: <c>+964700000002</c>
     ///
     /// -  Normal User:
     ///   Email: <c>normal@example.com</c>

@@ -10,7 +10,7 @@ namespace Moe.Core.Services;
 
 public interface INewsesService
 {
-    Task<Response<PagedList<NewsDTO>>> GetAll(NewsFilter filter);
+    Task<Response<PagedList<NewsSimpleDTO>>> GetAll(NewsFilter filter);
     Task<Response<NewsDTO>> GetById(Guid id);
     Task<Response<NewsDTO>> Create(NewsFormDTO form);
     Task Update(NewsUpdateDTO update);
@@ -22,7 +22,7 @@ public class NewsesService : BaseService, INewsesService
     public NewsesService(MasterDbContext context, IMapper mapper) : base(context, mapper)
     { }
 
-    public async Task<Response<PagedList<NewsDTO>>> GetAll(NewsFilter filter)
+    public async Task<Response<PagedList<NewsSimpleDTO>>> GetAll(NewsFilter filter)
     {
         var query = _context.Newses
        .WhereBaseFilter(filter)
@@ -32,10 +32,10 @@ public class NewsesService : BaseService, INewsesService
        .OrderByCreationDate();
 
         var newses = await query
-            .ProjectTo<NewsDTO>(_mapper.ConfigurationProvider)
+            .ProjectTo<NewsSimpleDTO>(_mapper.ConfigurationProvider)
             .Paginate(filter);
 
-        return new Response<PagedList<NewsDTO>>(newses, null, 200);
+        return new Response<PagedList<NewsSimpleDTO>>(newses, null, 200);
     }
 
     public async Task<Response<NewsDTO>> GetById(Guid id)

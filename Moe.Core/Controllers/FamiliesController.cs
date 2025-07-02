@@ -50,11 +50,11 @@ public class FamiliesController : BaseController
     /// Creates a new instance
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// Status : '  Active = 10 ,Pending = 0, Rejected =20'
     /// </remarks>
-    [Authorize]
-	[HttpPost]
+    [Authorize(Roles = "super-admin")]
+    [HttpPost]
 	public async Task<ActionResult<Response<FamilySimpleDTO>>> Create([Required] [FromBody] FamilyFormDTO form) =>
 		Ok(await _familiesService.Create(form));
 
@@ -62,10 +62,10 @@ public class FamiliesController : BaseController
     /// Updates an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-	[Authorize]
-	[HttpPut("{id}")]
+    [Authorize(Roles = "super-admin")]
+    [HttpPut("{id}")]
 	[ProducesResponseType(204)]
 	[ProducesResponseType(404)]
 	public async Task<IActionResult> Update([Required] [FromBody] FamilyUpdateDTO update, Guid id)
@@ -80,10 +80,10 @@ public class FamiliesController : BaseController
     /// Deletes an instance determined by its ID
     /// </summary>
     /// <remarks>
-    /// Required Roles: `Any`
+    /// Required Roles: `super-admin`
     /// </remarks>
-	[Authorize]
-	[HttpDelete("{id}")]
+    [Authorize(Roles = "super-admin")]
+    [HttpDelete("{id}")]
 	[ProducesResponseType(204)]
 	[ProducesResponseType(404)]
 	public async Task<IActionResult> Delete(Guid id)
