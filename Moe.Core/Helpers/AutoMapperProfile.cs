@@ -48,6 +48,11 @@ public class AutoMapperProfile : Profile
 
         //{{INSERTION_POINT}}
         
+        CreateMap<Device,DeviceDTO>();
+        CreateMap<DeviceFormDTO,Device>();
+        CreateMap<DeviceUpdateDTO,Device>()
+            .IgnoreNullAndEmptyGuids();
+        
         CreateMap<Warehouse,WarehouseDTO>();
         CreateMap<Warehouse, WarehouseSimpleDTO>()
             .ForMember(dest => dest.FamilyName, opt => opt.MapFrom(src => src.Family.FatherName));

@@ -49,7 +49,7 @@ public class FamiliesService : BaseService, IFamiliesService
         var family = await _context.Families
          .Include(f => f.Orphans).ThenInclude(o => o.SponsorShips)
          .Include(f => f.Documents)
-         .Include(f => f.Devices)
+     
          .Include(f => f.Warehouses)
          .FirstOrDefaultAsync(f => f.Id == id);
 
@@ -75,7 +75,7 @@ public class FamiliesService : BaseService, IFamiliesService
        
         var family = await _context.Families
             .Include(f => f.Documents)
-            .Include(f => f.Devices)
+         
             .FirstOrDefaultAsync(f => f.Id == update.Id);
 
         if (family == null)
@@ -90,21 +90,6 @@ public class FamiliesService : BaseService, IFamiliesService
                 family.Documents.Add(new Document
                 {
                     FilePath = file,
-                    FamilyId = family.Id
-                });
-            }
-        }
-
-
-      
-        if (update.Devices != null)
-        {
-            family.Devices.Clear();
-            foreach (var file in update.Devices)
-            {
-                family.Devices.Add(new Device
-                {
-                    DevicePath = file,
                     FamilyId = family.Id
                 });
             }

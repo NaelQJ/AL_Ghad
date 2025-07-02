@@ -30,14 +30,15 @@ namespace Moe.Core.Helpers
                 .IncludeMembers(src => src.Father, src => src.Mother, src => src.CurrentHousing,
                                 src => src.PreviousHousing, src => src.Income, src => src.Project)
                 .ForMember(dest => dest.Orphans, opt => opt.Ignore())
+                  .ForMember(dest => dest.FamilyDevices, opt => opt.MapFrom(src => src.Device))
                 .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents.Select(doc => new Document { FilePath = doc })))
-                .ForMember(dest => dest.Devices, opt => opt.MapFrom(src => src.Devices.Select(dev => new Device { DevicePath = dev })))
+              
                 .ForMember(dest => dest.Notes, opt => opt.MapFrom(src => src.Notes));
-
+           
             CreateMap<FamilyUpdateDTO, Family>()
                 .IgnoreNullAndEmptyGuids();
+            CreateMap<FamilyDeviceDTO, FamilyDevice>();
 
-           
             CreateMap<FatherInfoDTO, Family>();
             CreateMap<MotherInfoDTO, Family>();
             CreateMap<CurrentHousingDTO, Family>();
@@ -61,7 +62,7 @@ namespace Moe.Core.Helpers
            .IncludeMembers(src => src.Father, src => src.Mother, src => src.CurrentHousing,
                            src => src.PreviousHousing, src => src.Income, src => src.Project)
            .ForMember(dest => dest.Documents, opt => opt.Ignore())
-           .ForMember(dest => dest.Devices, opt => opt.Ignore())
+          
            .AfterMap((src, dest, ctx) =>
            {
                if (src.Father != null)

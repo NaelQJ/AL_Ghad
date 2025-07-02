@@ -113,7 +113,7 @@ public class Family : BaseEntity
     #region Many-To-N
     public ICollection<Orphan> Orphans { get; set; } = new List<Orphan>();
     public ICollection<Document> Documents { get; set; } = new List<Document>();
-    public ICollection<Device> Devices { get; set; } = new List<Device>();
+    public ICollection<FamilyDevice> FamilyDevices { get; set; } = new List<FamilyDevice>();
     public ICollection<SponsorShip> SponsorShips { get; set; } = new List<SponsorShip>();
     public ICollection<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
     #endregion

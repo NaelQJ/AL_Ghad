@@ -20,6 +20,7 @@ public class FamilyDTO : BaseDTO
     public ProjectInfoDTO Project { get; set; }
 
     public List<string> Documents { get; set; }
+
     public List<WarehouseSimpleDTO> Warehouses { get; set; } = new();
     public List<OrphanFamilyDTO> Orphans { get; set; } = new();
 }
@@ -69,11 +70,12 @@ public class FamilyFormDTO : BaseFormDTO
     public PreviousHousingDTO PreviousHousing { get; set; } = new();
     public IncomeInfoDTO Income { get; set; } = new();
     public ProjectInfoDTO Project { get; set; } = new();
+    public List<FamilyDeviceDTO> Device { get; set; } = new();
     public string Notes { get; set; }
 
 
     public ICollection<string> Documents { get; set; } = new List<string>();
-    public ICollection<string> Devices { get; set; } = new List<string>();
+   
 }
 public class FatherInfoDTO
 {
@@ -188,7 +190,7 @@ public class FamilyUpdateDTO : BaseUpdateDTO
     public bool? IsSponsored { get; set; }
 
     public ICollection<string>? Documents { get; set; }
-    public ICollection<string>? Devices { get; set; }
+  
 }
 public class FatherInfoUpdateDTO
 {

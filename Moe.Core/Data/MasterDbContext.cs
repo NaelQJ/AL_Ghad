@@ -26,6 +26,8 @@ public class MasterDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
 
     //{{INSERTION_POINT}}  
+    public DbSet<Device> Devices { get; set; }
+    public DbSet<FamilyDevice> FamilyDevices { get; set; }
     public DbSet<Warehouse> Warehouses { get; set; }
     public DbSet<Support> Supports { get; set; }
     public DbSet<SponsorShip> SponsorShips { get; set; }
@@ -35,8 +37,8 @@ public class MasterDbContext : DbContext
     public DbSet<Orphan> Orphans { get; set; }
     public DbSet<Family> Families { get; set; }
     public DbSet<Document> Documents { get; set; }
-    public DbSet<Device> Devices { get; set; }
-  
+
+
     public DbSet<SystemSettings> SystemSettings { get; set; }
 
     public DbSet<ChangePasswordRequest> ChangePasswordRequest { get; set; }
@@ -74,11 +76,22 @@ public class MasterDbContext : DbContext
 
         modelBuilder.Entity<SponsorShip>()
        .HasOne(s => s.Sponsor)
-       .WithMany(sp => sp.SponsorShips) 
+       .WithMany(sp => sp.SponsorShips)
        .HasForeignKey(s => s.SponsorId)
        .OnDelete(DeleteBehavior.SetNull);
 
 
+        modelBuilder.Entity<FamilyDevice>()
+           .HasOne(fd => fd.Family)
+           .WithMany(f => f.FamilyDevices)
+           .HasForeignKey(fd => fd.FamilyId)
+        .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<FamilyDevice>()
+            .HasOne(fd => fd.Device)
+            .WithMany(d => d.FamilyDevices)
+            .HasForeignKey(fd => fd.DeviceId)
+            .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 

@@ -11,11 +11,3 @@ public class Document : BaseEntity
 }
 
 
-public class Device:BaseEntity
-{ 
-    public Family Family { get; set; }
-    public Guid FamilyId { get; set; }
-
-    public string DevicePath { get; set; }
-}
-
