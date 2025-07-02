@@ -34,6 +34,8 @@ public class Family : BaseEntity
     [Range(1, int.MaxValue)]
     public int OrphanCount { get; set; }
 
+    public string? FamliyImge { get; set;}
+
 
 
     [MaxLength(128)]

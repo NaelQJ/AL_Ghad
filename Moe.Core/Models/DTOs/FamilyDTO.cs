@@ -96,6 +96,8 @@ public class FatherInfoDTO
 
     [Range(1, int.MaxValue)]
     public int OrphanCount { get; set; }
+
+    public string? FamliyImge { get; set; }
 }
 public class MotherInfoDTO
 {
@@ -200,6 +202,7 @@ public class FatherInfoUpdateDTO
     public string? FatherJob { get; set; }
     public string? SecondDeceasedName { get; set; }
     public int? OrphanCount { get; set; }
+    public string? FamliyImge { get; set; }
 }
 public class MotherInfoUpdateDTO
 {
